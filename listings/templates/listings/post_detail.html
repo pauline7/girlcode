@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+    <div class="card mb-3 col-md-12">
+        <div class="row g-0">
+            <div class="details col-md-5">
+                <img src="{{ post.images.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-7 package-details">
+                <div class="modal-header">
+                    <!-- <div class="col-md-1 agencyLogo">
+                        <img src="{% static "images/logo.png" %}" class="img-fluid" alt="...">
+                    </div> -->
+                    <!-- <a href="#">
+                        <h5 class="modal-title">{{ package.agency.agency_name }}</h5>
+                    </a> -->
+                </div>
+                <div class="card-body">
+                    <h5 class="modal-title">{{ post.title }}</h5>
+                    <br>
+                    <p class="card-text">{{ post.description|linebreaks }}</p>
+                </div>
+                <div class="card-body comments">
+                    <p class="card-text">
+                        {% if comments %}
+                        <!-- <strong class="text-secondary">{{ object.number_of_comments }} Comment{{ object.number_of_comments|pluralize }}</strong>
+                        <hr> -->
+                        <ul>
+                            {% for comment in comments %}
+                            <li>           
+                            <div>
+                                <span>
+                                <strong class="text-info">{{ comment.author }} </strong>
+                                <small class="text-muted">{{ comment.date_posted }}</small>
+                                </span>
+                                <p>
+                                {{ comment.content|safe }}
+                                </p>
+                            </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                            <strong class="text-secondary">No comments yet...</strong>
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ comment_form|crispy }}
+                                <button class="btn btn-info" type="submit">Post comment</button>
+                            </div>
+                        </form>
+                        {% else %}
+                        <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to add a comment!</a><br>
+                        {% endif %}
+                    </p>
+                </div>
+                <!-- <div class="modal-footer col-12">
+                    <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Bookmark">
+                    <i class="fa fa-bookmark-o fa-fw fa-2x" aria-hidden="true"></i>
+                    </a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <br/>
+
+{% endblock %}
